@@ -19,11 +19,13 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.DATE,
 			},
-			productId: {
+			CouponId: {
+				allowNull: true,
+				default: null,
 				type: Sequelize.DataTypes.INTEGER,
 				references: {
 					model: {
-						tableName: "orders",
+						tableName: "coupons",
 					},
 					key: "id",
 				},
