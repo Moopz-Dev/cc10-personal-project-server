@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			modelName: "CartItem",
-			underscored: true,
 		}
 	);
 	return CartItem;

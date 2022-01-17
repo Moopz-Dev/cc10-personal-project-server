@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			modelName: "Order",
-			underscored: true,
 		}
 	);
 	return Order;
