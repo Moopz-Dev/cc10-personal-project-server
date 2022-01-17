@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const fs = require("fs");
 
 // initialize express
 const app = express();
@@ -10,6 +11,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 
 // routes
+fs.readdirSync("./routes").map(r => app.use("/api", require("./routes/" + r)));
 
 //error handling
 app.use((req, res) => {
