@@ -1,10 +1,7 @@
 const express = require("express");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
-const {
-	authenticateUser,
-	authenticateAdmin,
-} = require("../middlewares/authenticate");
+const { authenticateUser } = require("../middlewares/authenticate");
 const router = express.Router();
 
 //register & login
@@ -12,13 +9,13 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 
 //user endpoints
-router.post("/user/cart", userController.addCartItem);
-router.get("/user/cart", userController.getCartItem);
-router.delete("/user/cart", userController.removeCartItem);
+router.post("/user/cart", authenticateUser, userController.addCartItem);
+router.get("/user/cart", authenticateUser, userController.getCartItem);
+router.delete("/user/cart", authenticateUser, userController.removeCartItem);
 
-router.post("/user/address", userController.changeAddress);
-router.post("/user/order", userController.createOrder);
-router.get("/user/orders", userController.getOrders);
-router.post("/user/order/coupon", userController.useCoupon);
+router.post("/user/address", authenticateUser, userController.changeAddress);
+router.post("/user/order", authenticateUser, userController.createOrder);
+router.get("/user/order", authenticateUser, userController.getOrders);
+router.post("/user/order/coupon", authenticateUser, userController.useCoupon);
 
 module.exports = router;
