@@ -6,14 +6,7 @@ const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 exports.register = async (req, res, next) => {
 	try {
-		const { email, password, confirmPassword, username, address } = req.body;
-
-		//check that password is not mistyped
-		if (password !== confirmPassword) {
-			return res
-				.status(400)
-				.json({ message: "password and confirm password didn't match" });
-		}
+		const { email, phoneNumber, password, username, address } = req.body;
 
 		//check for username duplication
 		const existUsername = await User.findOne({ where: { username: username } });
@@ -37,10 +30,21 @@ exports.register = async (req, res, next) => {
 			return res.status(400).json({ message: "this email is already in use" });
 		}
 
+		//check for phoneNumber duplication
+		const existPhone = await User.findOne({
+			where: { phoneNumber: phoneNumber },
+		});
+		if (existPhone) {
+			return res
+				.status(400)
+				.json({ message: "this Phone number is already in use" });
+		}
+
 		const hashedPassword = await bcrypt.hash(password, 10);
 		await User.create({
 			username,
 			address,
+			phoneNumber,
 			email,
 			address,
 			password: hashedPassword,
@@ -53,13 +57,13 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
 	try {
-		const { emailOrUsername, password } = req.body;
-		const isEmail = emailOrUsername.match(emailRegex);
+		const { emailOrPhoneNumber, password } = req.body;
+		const isEmail = emailOrPhoneNumber.match(emailRegex);
 		let user;
 		if (isEmail) {
-			user = await User.findOne({ where: { email: emailOrUsername } });
+			user = await User.findOne({ where: { email: emailOrPhoneNumber } });
 		} else {
-			user = await User.findOne({ where: { username: emailOrUsername } });
+			user = await User.findOne({ where: { username: emailOrPhoneNumber } });
 		}
 		if (!user) {
 			return res
