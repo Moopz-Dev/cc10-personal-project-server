@@ -15,7 +15,16 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	SubCategory.init(
 		{
-			name: DataTypes.STRING,
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			slug: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
 		},
 		{
 			sequelize,

@@ -6,7 +6,7 @@ const router = express.Router();
 //subCategory endpoints
 
 router.get("/subCategory", subCategoryController.getAllSubCategory);
-router.get("/subCategory/id", subCategoryController.getOneSubCategory);
+router.get("/subCategory/:slug", subCategoryController.getOneSubCategory);
 
 router.post(
 	"/subCategory",
@@ -14,12 +14,12 @@ router.post(
 	subCategoryController.createSubCategory
 );
 router.put(
-	"/subCategory:id",
+	"/subCategory:slug",
 	authenticateAdmin,
 	subCategoryController.updateSubCategory
 );
 router.delete(
-	"/subCategory/:id",
+	"/subCategory/:slug",
 	authenticateAdmin,
 	subCategoryController.deleteSubCategory
 );
