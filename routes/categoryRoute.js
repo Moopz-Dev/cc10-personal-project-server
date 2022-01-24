@@ -6,17 +6,16 @@ const router = express.Router();
 //category endpoints
 
 router.get("/category", categoryController.getAllCategory);
-router.get("/category/:id", categoryController.getOneCategory);
-// router.get("/category/:id", categoryController.getSubCategory);
+router.get("/category/:slug", categoryController.getOneCategory);
 
 router.post("/category", authenticateAdmin, categoryController.createCategory);
 router.put(
-	"/category/:id",
+	"/category/:slug",
 	authenticateAdmin,
 	categoryController.updateCategory
 );
 router.delete(
-	"/category/:id",
+	"/category/:slug",
 	authenticateAdmin,
 	categoryController.deleteCategory
 );
