@@ -1,4 +1,5 @@
 "use strict";
+const slugify = require("slugify");
 
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
@@ -6,22 +7,26 @@ module.exports = {
 			"categories",
 			[
 				{
-					name: "monitor",
+					name: "Monitors",
+					slug: slugify("Monitors"),
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
-					name: "accessories",
+					name: "Accessories",
+					slug: slugify("Accessories"),
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
-					name: "laptop",
+					name: "Laptops",
+					slug: slugify("Laptops"),
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
-					name: "smartphone",
+					name: "Smartphones",
+					slug: slugify("Smartphones"),
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
