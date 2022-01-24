@@ -79,14 +79,23 @@ exports.login = async (req, res, next) => {
 
 		const payload = {
 			id: user.id,
-			email: user.email,
+			username: user.username,
 			role: user.role,
 		};
 		const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
 			expiresIn: 60 * 60 * 24 * 30 * 1000,
 		});
-		return res.status(200).json({ token });
+		return res
+			.status(200)
+			.json({ token, user: { username: user.username, role: user.role } });
 	} catch (err) {
 		next(err);
 	}
+};
+
+exports.getMe = (req, res, next) => {
+	const { username, role, email, phoneNumber } = req.user;
+	res.status(200).json({
+		user: { username, role, email, phoneNumber },
+	});
 };

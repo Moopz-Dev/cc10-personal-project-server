@@ -11,7 +11,7 @@ module.exports = {
 					role: "admin",
 					email: "admin@gmail.com",
 					phoneNumber: "0909969848",
-					password: bcrypt.hashSync("admin", 12),
+					password: bcrypt.hashSync("123456", 12),
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},

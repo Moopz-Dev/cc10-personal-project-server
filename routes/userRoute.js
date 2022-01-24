@@ -8,6 +8,9 @@ const router = express.Router();
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 
+//get current user
+router.get("/user/me", authenticateUser, authController.getMe);
+
 //user endpoints
 router.post("/user/cart", authenticateUser, userController.addCartItem);
 router.get("/user/cart", authenticateUser, userController.getCartItem);
