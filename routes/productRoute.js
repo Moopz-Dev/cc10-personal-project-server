@@ -6,12 +6,16 @@ const router = express.Router();
 //product endpoints
 
 router.get("/product", productController.getAllProduct);
-router.get("/product/:id", productController.getOneProduct);
+router.get("/product/:slug", productController.getOneProduct);
 
 router.post("/product", authenticateAdmin, productController.createProduct);
-router.put("/product/:id", authenticateAdmin, productController.updateProduct);
+router.put(
+	"/product/:slug",
+	authenticateAdmin,
+	productController.updateProduct
+);
 router.delete(
-	"/product/:id",
+	"/product/:slug",
 	authenticateAdmin,
 	productController.deleteProduct
 );

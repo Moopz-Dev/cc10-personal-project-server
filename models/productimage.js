@@ -15,6 +15,16 @@ module.exports = (sequelize, DataTypes) => {
 	ProductImage.init(
 		{
 			imageUrl: DataTypes.STRING,
+			productId: {
+				type: DataTypes.INTEGER,
+				references: {
+					model: {
+						tableName: "products",
+					},
+					key: "id",
+				},
+				allowNull: false,
+			},
 		},
 		{
 			sequelize,

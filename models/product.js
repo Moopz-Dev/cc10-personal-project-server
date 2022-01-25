@@ -22,11 +22,51 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				unique: true,
 			},
-			title: DataTypes.STRING,
-			price: DataTypes.DECIMAL,
-			quantity: DataTypes.INTEGER,
-			sold: DataTypes.INTEGER,
-			description: DataTypes.TEXT,
+			title: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			price: {
+				type: DataTypes.DECIMAL,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			quantity: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			sold: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			description: {
+				type: DataTypes.TEXT,
+				allowNull: false,
+				defaultValue: "description",
+			},
+			color: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: "unspecified",
+			},
+			brand: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: "unspecified",
+			},
+			subCategoryId: {
+				type: DataTypes.INTEGER,
+				references: {
+					model: {
+						tableName: "subcategories",
+					},
+					key: "id",
+				},
+				allowNull: false,
+			},
 		},
 		{
 			sequelize,
