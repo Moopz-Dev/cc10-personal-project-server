@@ -5,21 +5,17 @@ const router = express.Router();
 
 //subCategory endpoints
 
-router.get("/subCategory", subCategoryController.getAllSubCategory);
-router.get("/subCategory/:slug", subCategoryController.getOneSubCategory);
+router.get("/sub", subCategoryController.getAllSubCategory);
+router.get("/sub/:slug", subCategoryController.getOneSubCategory);
 
-router.post(
-	"/subCategory",
-	authenticateAdmin,
-	subCategoryController.createSubCategory
-);
+router.post("/sub", authenticateAdmin, subCategoryController.createSubCategory);
 router.put(
-	"/subCategory:slug",
+	"/sub/:slug",
 	authenticateAdmin,
 	subCategoryController.updateSubCategory
 );
 router.delete(
-	"/subCategory/:slug",
+	"/sub/:slug",
 	authenticateAdmin,
 	subCategoryController.deleteSubCategory
 );

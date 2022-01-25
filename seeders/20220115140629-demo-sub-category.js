@@ -4,7 +4,7 @@ const slugify = require("slugify");
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		await queryInterface.bulkInsert(
-			"sub_categories",
+			"subcategories",
 			[
 				{
 					name: "Below 20 inches",
@@ -75,6 +75,6 @@ module.exports = {
 	},
 
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.bulkDelete("sub_categories", null, {});
+		await queryInterface.bulkDelete("subcategories", null, {});
 	},
 };
