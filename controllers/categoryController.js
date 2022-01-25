@@ -1,5 +1,5 @@
 const { Category } = require("../models");
-const slugify = require("slugify");
+const slugify = require("../config/slugify");
 exports.getAllCategory = async (req, res, next) => {
 	try {
 		const categories = await Category.findAll({

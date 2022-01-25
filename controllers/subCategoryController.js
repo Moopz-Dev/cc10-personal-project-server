@@ -1,5 +1,5 @@
 const { SubCategory, Category } = require("../models");
-const slugify = require("slugify");
+const slugify = require("../config/slugify");
 exports.getAllSubCategory = async (req, res, next) => {
 	try {
 		const subCategories = await SubCategory.findAll({

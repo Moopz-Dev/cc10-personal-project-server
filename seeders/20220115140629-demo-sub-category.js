@@ -1,5 +1,5 @@
 "use strict";
-const slugify = require("slugify");
+const slugify = require("../config/slugify");
 
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
