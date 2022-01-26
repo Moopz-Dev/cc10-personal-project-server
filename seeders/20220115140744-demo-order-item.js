@@ -6,16 +6,18 @@ module.exports = {
 			"orderItems",
 			[
 				{
-					amount: "1",
+					title: "Iphone Pro 13",
+					price: "15000",
+					quantity: "2",
 					orderId: "2",
-					productId: "2",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
-					amount: "1",
+					title: "Macbook Pro 13",
+					price: "5000",
+					quantity: "5",
 					orderId: "1",
-					productId: "5",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},

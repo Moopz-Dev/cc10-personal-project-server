@@ -8,8 +8,18 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
-			amount: {
+			title: {
+				type: Sequelize.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			price: {
+				type: Sequelize.DECIMAL,
+				allowNull: false,
+			},
+			quantity: {
 				type: Sequelize.INTEGER,
+				allowNull: false,
 			},
 			createdAt: {
 				allowNull: false,
@@ -24,16 +34,6 @@ module.exports = {
 				references: {
 					model: {
 						tableName: "orders",
-					},
-					key: "id",
-				},
-				allowNull: false,
-			},
-			productId: {
-				type: Sequelize.DataTypes.INTEGER,
-				references: {
-					model: {
-						tableName: "products",
 					},
 					key: "id",
 				},

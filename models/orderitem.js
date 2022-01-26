@@ -10,12 +10,26 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			OrderItem.belongsTo(models.Order);
-			OrderItem.belongsTo(models.Product);
+			// OrderItem.belongsTo(models.Product);
 		}
 	}
 	OrderItem.init(
 		{
-			amount: DataTypes.INTEGER,
+			title: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			price: {
+				type: DataTypes.DECIMAL,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			quantity: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
 		},
 		{
 			sequelize,
