@@ -1,9 +1,38 @@
-const { Product, SubCategory } = require("../models");
+const { Category, Product, SubCategory, ProductImage } = require("../models");
 const slugify = require("../config/slugify");
 
-exports.getAllProduct = async (req, res, next) => {
+exports.getSomeProduct = async (req, res, next) => {
 	try {
-		const products = await Product.findAll();
+		const { count } = req.params;
+		let products = await Product.findAll({
+			limit: Number(count),
+			attributes: [
+				"id",
+				"title",
+				"slug",
+				"price",
+				"quantity",
+				"sold",
+				"description",
+				"color",
+				"brand",
+				"createdAt",
+				"updatedAt",
+			],
+			order: [["createdAt", "DESC"]],
+			include: [
+				{
+					model: SubCategory,
+					attributes: ["id", "name", "slug", "categoryId"],
+					include: [{ model: Category, attributes: ["id", "name", "slug"] }],
+				},
+				{
+					model: ProductImage,
+					attributes: ["imageUrl"],
+				},
+			],
+		});
+
 		res.status(200).json(products);
 	} catch (error) {
 		next(error);
@@ -19,8 +48,16 @@ exports.getOneProduct = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
 	try {
-		const { title, subCategoryId, price, quantity, description, color, brand } =
-			req.body;
+		const {
+			title,
+			subCategoryId,
+			price,
+			quantity,
+			description,
+			color,
+			brand,
+			images,
+		} = req.body;
 		if (
 			!(
 				title &&
@@ -56,6 +93,20 @@ exports.createProduct = async (req, res, next) => {
 			color,
 			brand,
 		});
+		if (images.length > 0) {
+			for (let i = 0; i < images.length; i++) {
+				await ProductImage.create({
+					productId: product.id,
+					imageUrl: images[i].imageUrl,
+				});
+			}
+			const uploadedImages = await ProductImage.findAll({
+				where: { productId: product.id },
+			});
+
+			product = { ...product, images: uploadedImages };
+		}
+
 		res.status(201).json(product);
 	} catch (error) {
 		next(error);

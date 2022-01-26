@@ -5,7 +5,7 @@ const router = express.Router();
 
 //product endpoints
 
-router.get("/product", productController.getAllProduct);
+router.get("/product/:count", productController.getSomeProduct);
 router.get("/product/:slug", productController.getOneProduct);
 
 router.post("/product", authenticateAdmin, productController.createProduct);
