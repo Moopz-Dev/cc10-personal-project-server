@@ -45,6 +45,97 @@ exports.getSomeProduct = async (req, res, next) => {
 	}
 };
 
+//// without pagination
+// exports.getAllProduct = async (req, res, next) => {
+// 	try {
+// 		const { order, ascOrDesc, limit } = req.body;
+// 		let products = await Product.findAll({
+// 			limit: Number(limit),
+// 			attributes: [
+// 				"id",
+// 				"title",
+// 				"slug",
+// 				"price",
+// 				"quantity",
+// 				"sold",
+// 				"description",
+// 				"color",
+// 				"brand",
+// 				"createdAt",
+// 				"updatedAt",
+// 			],
+// 			order: [[order, ascOrDesc]],
+// 			include: [
+// 				{
+// 					model: SubCategory,
+// 					attributes: ["id", "name", "slug", "categoryId"],
+// 					include: [{ model: Category, attributes: ["id", "name", "slug"] }],
+// 				},
+// 				{
+// 					model: ProductImage,
+// 					attributes: ["imageUrl"],
+// 				},
+// 			],
+// 		});
+
+// 		res.status(200).json(products);
+// 	} catch (error) {
+// 		next(error);
+// 	}
+// };
+
+////with pagination
+exports.getAllProduct = async (req, res, next) => {
+	try {
+		const { order, ascOrDesc, page } = req.body;
+		const currentPage = page || 1;
+		const perPage = 3;
+		const offset = (currentPage - 1) * perPage;
+		let products = await Product.findAll({
+			limit: Number(perPage),
+			offset: Number(offset),
+			attributes: [
+				"id",
+				"title",
+				"slug",
+				"price",
+				"quantity",
+				"sold",
+				"description",
+				"color",
+				"brand",
+				"createdAt",
+				"updatedAt",
+			],
+			order: [[order, ascOrDesc]],
+			include: [
+				{
+					model: SubCategory,
+					attributes: ["id", "name", "slug", "categoryId"],
+					include: [{ model: Category, attributes: ["id", "name", "slug"] }],
+				},
+				{
+					model: ProductImage,
+					attributes: ["imageUrl"],
+				},
+			],
+		});
+
+		res.status(200).json(products);
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.getProductNumber = async (req, res, next) => {
+	try {
+		const total = await Product.count();
+		res.status(200).json({ total });
+	} catch (error) {
+		next(error);
+	}
+};
+
 exports.getOneProduct = async (req, res, next) => {
 	try {
 		const { slug } = req.params;

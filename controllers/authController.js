@@ -63,7 +63,7 @@ exports.login = async (req, res, next) => {
 		if (isEmail) {
 			user = await User.findOne({ where: { email: emailOrPhoneNumber } });
 		} else {
-			user = await User.findOne({ where: { username: emailOrPhoneNumber } });
+			user = await User.findOne({ where: { phoneNumber: emailOrPhoneNumber } });
 		}
 		if (!user) {
 			return res
