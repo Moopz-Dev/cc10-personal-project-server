@@ -18,6 +18,16 @@ module.exports = {
 				},
 				allowNull: false,
 			},
+			userId: {
+				type: Sequelize.DataTypes.INTEGER,
+				references: {
+					model: {
+						tableName: "users",
+					},
+					key: "id",
+				},
+				allowNull: false,
+			},
 			rating: {
 				type: Sequelize.DataTypes.INTEGER,
 				allowNull: false,

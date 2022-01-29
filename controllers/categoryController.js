@@ -1,5 +1,12 @@
-const { Category, SubCategory } = require("../models");
+const {
+	Category,
+	SubCategory,
+	Product,
+	ProductImage,
+	ProductRating,
+} = require("../models");
 const slugify = require("../config/slugify");
+
 exports.getAllCategory = async (req, res, next) => {
 	try {
 		const categories = await Category.findAll({
@@ -13,7 +20,27 @@ exports.getAllCategory = async (req, res, next) => {
 exports.getOneCategory = async (req, res, next) => {
 	try {
 		const { slug } = req.params;
-		const category = await Category.findOne({ where: { slug } });
+		const category = await Category.findOne({
+			where: { slug },
+			include: [
+				{
+					model: SubCategory,
+					attributes: {
+						exclude: ["categoryId", "CategoryId"],
+					},
+					include: [
+						{
+							model: Product,
+							attributes: ["title", "description", "slug"],
+							include: [
+								{ model: ProductImage, attributes: ["imageUrl"] },
+								{ model: ProductRating, attributes: ["rating"] },
+							],
+						},
+					],
+				},
+			],
+		});
 		if (!category) {
 			return res.status(400).json({ message: "Category not found." });
 		}

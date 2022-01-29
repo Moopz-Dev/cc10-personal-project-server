@@ -4,6 +4,8 @@ const {
 	SubCategory,
 	ProductImage,
 	CartItem,
+	ProductRating,
+	User,
 } = require("../models");
 const slugify = require("../config/slugify");
 
@@ -35,6 +37,10 @@ exports.getSomeProduct = async (req, res, next) => {
 				{
 					model: ProductImage,
 					attributes: ["imageUrl"],
+				},
+				{
+					model: ProductRating,
+					attributes: ["rating"],
 				},
 			],
 		});
@@ -118,6 +124,10 @@ exports.getAllProduct = async (req, res, next) => {
 					model: ProductImage,
 					attributes: ["imageUrl"],
 				},
+				{
+					model: ProductRating,
+					attributes: ["rating"],
+				},
 			],
 		});
 
@@ -164,6 +174,10 @@ exports.getOneProduct = async (req, res, next) => {
 				{
 					model: ProductImage,
 					attributes: ["imageUrl"],
+				},
+				{
+					model: ProductRating,
+					attributes: ["rating"],
 				},
 			],
 		});
@@ -298,9 +312,86 @@ exports.deleteProduct = async (req, res, next) => {
 			return res.status(400).json({ message: "This product not found" });
 		}
 		await ProductImage.destroy({ where: { productId: product.id } });
+		await ProductRating.destroy({ where: { productId: product.id } });
 		await CartItem.destroy({ where: { productId: product.id } });
 		await product.destroy();
 		res.status(204).json();
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.rateProduct = async (req, res, next) => {
+	try {
+		const { slug } = req.params;
+		const { star } = req.body;
+		const user = await User.findOne({ where: { id: req.user.id } });
+		///check if the guy bought the product
+		const product = await Product.findOne({ where: { slug } });
+		if (!product) {
+			return res.status(400).json({ message: "This product not found" });
+		}
+		let rating = await ProductRating.findOne({
+			where: { productId: product.id, userId: user.id },
+		});
+		if (!rating) {
+			rating = await ProductRating.create({
+				userId: user.id,
+				productId: product.id,
+				rating: star,
+			});
+		} else {
+			rating.update({ rating: star });
+		}
+		res.status(204).json();
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.getOneProductRating = async (req, res, next) => {
+	try {
+		const { slug } = req.params;
+		const user = await User.findOne({ where: { id: req.user.id } });
+		///check if the guy bought the product
+		const product = await Product.findOne({ where: { slug } });
+		if (!product) {
+			return res.status(400).json({ message: "This product not found" });
+		}
+
+		let rating = await ProductRating.findOne({
+			where: { productId: product.id, userId: user.id },
+		});
+		if (!rating) {
+			return res.status(200).json({ star: 0 });
+		}
+		res.status(200).json(rating);
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.getRelatedProducts = async (req, res, next) => {
+	try {
+		const { slug } = req.params;
+		const product = await Product.findOne({ where: { slug } });
+		if (!product) {
+			return res.status(400).json({ message: "This product not found" });
+		}
+		const related = await Product.findAll({
+			where: { subCategoryId: product.subCategoryId },
+			include: [
+				{
+					model: ProductImage,
+					attributes: ["imageUrl"],
+				},
+				{
+					model: ProductRating,
+					attributes: ["rating"],
+				},
+			],
+		});
+		res.status(200).json(related);
 	} catch (error) {
 		next(error);
 	}
