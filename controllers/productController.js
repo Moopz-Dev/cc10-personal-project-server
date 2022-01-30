@@ -398,10 +398,10 @@ exports.getRelatedProducts = async (req, res, next) => {
 	}
 };
 
-exports.getProductsByFilter = async (req, res, next) => {
+exports.getProductsBySearch = async (req, res, next) => {
 	try {
-		const { text, price = [0, 999999] } = req.body;
-		console.log(price);
+		const { text } = req.body;
+		console.log(req.body);
 		const cat = await Category.findAll({
 			where: {
 				name: {
@@ -437,7 +437,41 @@ exports.getProductsByFilter = async (req, res, next) => {
 					},
 					{ subCategoryId: sub.map(item => item.id) },
 				],
-				price: { [Op.gte]: price[0], [Op.lte]: price[1] },
+			},
+			include: [
+				{
+					model: ProductImage,
+					attributes: ["imageUrl"],
+				},
+				{
+					model: ProductRating,
+					attributes: ["rating"],
+				},
+			],
+		});
+
+		res.status(200).json(filtered);
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.getProductsByFilter = async (req, res, next) => {
+	try {
+		const { text, categoryId, brand, min = 0, max = 99999 } = req.body;
+		console.log(req.body);
+
+		const sub = await SubCategory.findAll({
+			where: {
+				categoryId,
+			},
+		});
+
+		const filtered = await Product.findAll({
+			where: {
+				price: { [Op.gte]: min, [Op.lte]: max },
+				brand: brand,
+				subCategoryId: sub.map(item => item.id),
 			},
 			include: [
 				{

@@ -13,7 +13,8 @@ router.get("/product/total", productController.getProductNumber);
 router.get("/product/:slug", productController.getOneProduct);
 router.post("/products/", productController.getAllProduct);
 router.get("/related-products/:slug", productController.getRelatedProducts);
-router.post("/products/filters", productController.getProductsByFilter);
+router.post("/products/search", productController.getProductsBySearch);
+router.post("/products/filter", productController.getProductsByFilter);
 router.get("/brand", productController.getProductBrands);
 
 router.post("/product", authenticateAdmin, productController.createProduct);
