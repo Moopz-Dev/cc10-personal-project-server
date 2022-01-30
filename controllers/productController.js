@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const {
 	Category,
 	Product,
@@ -392,6 +393,74 @@ exports.getRelatedProducts = async (req, res, next) => {
 			],
 		});
 		res.status(200).json(related);
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.getProductsByFilter = async (req, res, next) => {
+	try {
+		const { text, price = [0, 999999] } = req.body;
+		console.log(price);
+		const cat = await Category.findAll({
+			where: {
+				name: {
+					[Op.substring]: text,
+				},
+			},
+		});
+		const sub = await SubCategory.findAll({
+			where: {
+				[Op.or]: [
+					{
+						name: {
+							[Op.substring]: text,
+						},
+					},
+					{ categoryId: cat.map(item => item.id) },
+				],
+			},
+		});
+
+		const filtered = await Product.findAll({
+			where: {
+				[Op.or]: [
+					{
+						title: {
+							[Op.substring]: text,
+						},
+					},
+					{
+						brand: {
+							[Op.substring]: text,
+						},
+					},
+					{ subCategoryId: sub.map(item => item.id) },
+				],
+				price: { [Op.gte]: price[0], [Op.lte]: price[1] },
+			},
+			include: [
+				{
+					model: ProductImage,
+					attributes: ["imageUrl"],
+				},
+				{
+					model: ProductRating,
+					attributes: ["rating"],
+				},
+			],
+		});
+
+		res.status(200).json(filtered);
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.getProductBrands = async (req, res, next) => {
+	try {
+		const brands = await Product.findAll({ attributes: ["brand"] });
+		res.status(200).json(brands.map(item => item.brand));
 	} catch (error) {
 		next(error);
 	}
