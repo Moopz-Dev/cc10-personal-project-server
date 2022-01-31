@@ -353,6 +353,7 @@ exports.rateProduct = async (req, res, next) => {
 exports.getOneProductRating = async (req, res, next) => {
 	try {
 		const { slug } = req.params;
+		console.log(req.user.id);
 		const user = await User.findOne({ where: { id: req.user.id } });
 		///check if the guy bought the product
 		const product = await Product.findOne({ where: { slug } });

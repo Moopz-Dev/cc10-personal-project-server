@@ -1,7 +1,10 @@
 const express = require("express");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
-const { authenticateUser } = require("../middlewares/authenticate");
+const {
+	authenticateUser,
+	authenticateAdminOrUser,
+} = require("../middlewares/authenticate");
 const router = express.Router();
 
 //register & login
@@ -9,7 +12,7 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 
 //get current user
-router.get("/user/me", authenticateUser, authController.getMe);
+router.get("/user/me", authenticateAdminOrUser, authController.getMe);
 
 //user endpoints
 router.post("/user/cart", authenticateUser, userController.addCartItem);

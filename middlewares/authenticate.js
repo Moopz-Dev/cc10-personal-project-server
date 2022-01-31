@@ -7,3 +7,7 @@ exports.authenticateAdmin = passport.authenticate("admin-role", {
 exports.authenticateUser = passport.authenticate("user-role", {
 	session: false,
 });
+
+exports.authenticateAdminOrUser = passport.authenticate("admin-or-user-role", {
+	session: false,
+});
