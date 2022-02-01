@@ -15,11 +15,9 @@ router.post("/login", authController.login);
 router.get("/user/me", authenticateAdminOrUser, authController.getMe);
 
 //user endpoints
-router.post("/user/cart", authenticateUser, userController.addCartItem);
-router.get("/user/cart", authenticateUser, userController.getCartItem);
-router.delete("/user/cart", authenticateUser, userController.removeCartItem);
+router.put("/user/address", authenticateUser, userController.updateUserAddress);
+router.get("/user/address", authenticateUser, userController.getUserAddress);
 
-router.post("/user/address", authenticateUser, userController.changeAddress);
 router.post("/user/order", authenticateUser, userController.createOrder);
 router.get("/user/order", authenticateUser, userController.getOrders);
 router.post("/user/order/coupon", authenticateUser, userController.useCoupon);
