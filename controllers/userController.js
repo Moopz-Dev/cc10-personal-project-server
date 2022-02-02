@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { User } = require("../models");
+const { User, Coupon } = require("../models");
 
 exports.updateUserAddress = async (req, res, next) => {
 	try {
@@ -28,8 +28,26 @@ exports.getUserAddress = async (req, res, next) => {
 			where: { id: req.user.id },
 			// attributes: ["address"],
 		});
-		console.log(user);
 		res.status(200).json(user);
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.applyCoupon = async (req, res, next) => {
+	try {
+		const { couponCode } = req.body;
+		const date = new Date();
+		const validCoupon = await Coupon.findOne({ where: { couponCode } });
+		if (!validCoupon) {
+			return res.status(400).json({ message: "This coupon code is invalid" });
+		}
+		if (validCoupon.expiryDate - date < 0) {
+			return res
+				.status(400)
+				.json({ message: "This coupon is already expired." });
+		}
+		res.status(200).json(validCoupon);
 	} catch (error) {
 		next(error);
 	}

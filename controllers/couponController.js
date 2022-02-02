@@ -11,6 +11,7 @@ exports.getCoupon = async (req, res, next) => {
 exports.createCoupon = async (req, res, next) => {
 	try {
 		const { couponCode, expiryDate, discount } = req.body;
+		console.log(req.body);
 		const coupon = await Coupon.create({
 			couponCode,
 			expiryDate,

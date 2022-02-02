@@ -14,9 +14,12 @@ router.post("/login", authController.login);
 //get current user
 router.get("/user/me", authenticateAdminOrUser, authController.getMe);
 
-//user endpoints
+//user address
 router.put("/user/address", authenticateUser, userController.updateUserAddress);
 router.get("/user/address", authenticateUser, userController.getUserAddress);
+
+//coupon
+router.post("/user/cart/coupon", authenticateUser, userController.applyCoupon);
 
 router.post("/user/order", authenticateUser, userController.createOrder);
 router.get("/user/order", authenticateUser, userController.getOrders);
