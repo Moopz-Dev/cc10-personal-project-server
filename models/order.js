@@ -9,14 +9,22 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			Order.hasMany(models.OrderItem);
+			Order.hasMany(models.OrderItem, { foreignKey: "orderId" });
 			Order.belongsTo(models.User);
-			Order.belongsTo(models.Coupon);
 		}
 	}
 	Order.init(
 		{
-			status: DataTypes.STRING,
+			status: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: "UNPAID",
+			},
+			discount: {
+				type: DataTypes.DECIMAL,
+				allowNull: false,
+				defaultValue: 0,
+			},
 		},
 		{
 			sequelize,

@@ -6,14 +6,15 @@ module.exports = {
 			"orders",
 			[
 				{
-					status: "completed",
-					couponId: "2",
-					userId: "2",
+					status: "UNPAID",
+					discount: "0",
+					userId: "1",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
 				{
-					status: "processing",
+					status: "UNPAID",
+					discount: "10",
 					userId: "2",
 					createdAt: new Date(),
 					updatedAt: new Date(),

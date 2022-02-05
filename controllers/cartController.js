@@ -30,7 +30,7 @@ exports.addCartItems = async (req, res, next) => {
 		});
 		if (!cartItem) {
 			await CartItem.create({
-				userId: 2,
+				userId: user.id,
 				productId,
 				amount: 1,
 			});

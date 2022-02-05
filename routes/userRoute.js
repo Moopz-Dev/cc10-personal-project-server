@@ -21,8 +21,10 @@ router.get("/user/address", authenticateUser, userController.getUserAddress);
 //coupon
 router.post("/user/cart/coupon", authenticateUser, userController.applyCoupon);
 
+//orders
 router.post("/user/order", authenticateUser, userController.createOrder);
 router.get("/user/order", authenticateUser, userController.getOrders);
-router.post("/user/order/coupon", authenticateUser, userController.useCoupon);
+
+// router.post("/user/order/coupon", authenticateUser, userController.useCoupon);
 
 module.exports = router;

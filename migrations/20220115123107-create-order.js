@@ -10,6 +10,8 @@ module.exports = {
 			},
 			status: {
 				type: Sequelize.STRING,
+				allowNull: false,
+				defaultValue: "UNPAID",
 			},
 			createdAt: {
 				allowNull: false,
@@ -19,19 +21,13 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.DATE,
 			},
-			CouponId: {
-				allowNull: true,
-				default: null,
-				type: Sequelize.DataTypes.INTEGER,
-				references: {
-					model: {
-						tableName: "coupons",
-					},
-					key: "id",
-				},
+			discount: {
+				type: Sequelize.DECIMAL,
+				allowNull: false,
+				defaultValue: 0,
 			},
 			userId: {
-				type: Sequelize.DataTypes.INTEGER,
+				type: Sequelize.INTEGER,
 				references: {
 					model: {
 						tableName: "users",
