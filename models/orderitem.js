@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
 			title: {
 				type: DataTypes.STRING,
 				allowNull: false,
-				unique: true,
 			},
 			price: {
 				type: DataTypes.DECIMAL,
@@ -29,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				defaultValue: 1,
+			},
+			productId: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
 			},
 		},
 		{

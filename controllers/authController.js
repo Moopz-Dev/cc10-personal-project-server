@@ -6,7 +6,7 @@ const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 exports.register = async (req, res, next) => {
 	try {
-		const { email, phoneNumber, password, username, address } = req.body;
+		const { email, phoneNumber, password, username } = req.body;
 
 		//check for username duplication
 		const existUsername = await User.findOne({ where: { username: username } });
@@ -43,10 +43,8 @@ exports.register = async (req, res, next) => {
 		const hashedPassword = await bcrypt.hash(password, 10);
 		await User.create({
 			username,
-			address,
 			phoneNumber,
 			email,
-			address,
 			password: hashedPassword,
 		});
 		return res.status(201).json({ message: "user created" });

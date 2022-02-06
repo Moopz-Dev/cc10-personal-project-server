@@ -26,6 +26,9 @@ module.exports = {
 				allowNull: false,
 				defaultValue: 0,
 			},
+			address: {
+				type: Sequelize.STRING,
+			},
 			userId: {
 				type: Sequelize.INTEGER,
 				references: {

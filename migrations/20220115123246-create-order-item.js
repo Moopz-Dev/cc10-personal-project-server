@@ -11,7 +11,6 @@ module.exports = {
 			title: {
 				type: Sequelize.STRING,
 				allowNull: false,
-				unique: true,
 			},
 			price: {
 				type: Sequelize.DECIMAL,
@@ -28,6 +27,10 @@ module.exports = {
 			updatedAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
+			},
+			productId: {
+				allowNull: false,
+				type: Sequelize.INTEGER,
 			},
 			orderId: {
 				type: Sequelize.DataTypes.INTEGER,

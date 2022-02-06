@@ -15,8 +15,8 @@ router.post("/login", authController.login);
 router.get("/user/me", authenticateAdminOrUser, authController.getMe);
 
 //user address
-router.put("/user/address", authenticateUser, userController.updateUserAddress);
-router.get("/user/address", authenticateUser, userController.getUserAddress);
+// router.put("/user/address", authenticateUser, userController.updateUserAddress);
+// router.get("/user/address", authenticateUser, userController.getUserAddress);
 
 //coupon
 router.post("/user/cart/coupon", authenticateUser, userController.applyCoupon);
@@ -24,6 +24,7 @@ router.post("/user/cart/coupon", authenticateUser, userController.applyCoupon);
 //orders
 router.post("/user/order", authenticateUser, userController.createOrder);
 router.get("/user/order", authenticateUser, userController.getOrders);
+router.delete("/user/order/:id", authenticateUser, userController.cancelOrder);
 
 // router.post("/user/order/coupon", authenticateUser, userController.useCoupon);
 
