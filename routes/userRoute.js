@@ -25,7 +25,11 @@ router.post("/user/cart/coupon", authenticateUser, userController.applyCoupon);
 router.post("/user/order", authenticateUser, userController.createOrder);
 router.get("/user/order", authenticateUser, userController.getOrders);
 router.delete("/user/order/:id", authenticateUser, userController.cancelOrder);
-
+router.patch(
+	"/user/order:id",
+	authenticateUser,
+	userController.updateOrderPayment
+);
 // router.post("/user/order/coupon", authenticateUser, userController.useCoupon);
 
 module.exports = router;

@@ -67,14 +67,16 @@ exports.createOrder = async (req, res, next) => {
 			return res.status(400).json({ message: "This user does not exist" });
 		}
 		const { couponCode, address } = req.body;
-		console.log(couponCode);
-		console.log(address);
 		let items = await CartItem.findAll({
 			where: { userId: user.id },
+
 			include: {
 				model: Product,
-				attributes: ["title", "price"],
+
+				attributes: ["title", "price", "id"],
 			},
+			raw: true,
+			nest: true,
 		});
 
 		if (!items) {
@@ -83,7 +85,10 @@ exports.createOrder = async (req, res, next) => {
 				json({ message: "Your Cart is empty, cannot create order." })
 			);
 		}
-		items = JSON.parse(JSON.stringify(items));
+
+		// console.log(items);
+		// items = JSON.parse(JSON.stringify(items));
+		// console.log(items);
 
 		const order = await Order.create({
 			userId: user.id,
@@ -103,7 +108,7 @@ exports.createOrder = async (req, res, next) => {
 				quantity: items[x].amount,
 				title: items[x].Product.title,
 				price: items[x].Product.price,
-				productId: item[x].Product.id,
+				productId: items[x].Product.id,
 			});
 			// await Product.increment(
 			// 	{
@@ -152,4 +157,28 @@ exports.cancelOrder = async (req, res, next) => {
 	} catch (error) {
 		next(error);
 	}
+};
+
+exports.updateOrderPayment = async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const { paymentSlip } = req.body;
+
+		const order = await Order.findOne({ where: { id } });
+
+		const user = await User.findOne({ where: { id: req.user.id } });
+		if (!user) {
+			return res.status(400).json({ message: "This user does not exist" });
+		}
+		if (order.userId !== user.id) {
+			return res.status(403).json({ message: "Unauthorized" });
+		}
+
+		await order.update({ paymentSlip });
+		if (paymentSlip) {
+			await order.update({ status: "UNPROCESSED" });
+		}
+
+		res.status(204).json();
+	} catch (error) {}
 };

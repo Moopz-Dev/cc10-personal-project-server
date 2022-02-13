@@ -26,6 +26,7 @@ module.exports = {
 					discount: "15",
 					userId: "2",
 					address: "address789",
+					tracking: "EF582568151TH",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},

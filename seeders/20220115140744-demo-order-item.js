@@ -37,6 +37,7 @@ module.exports = {
 					price: "2000",
 					quantity: "3",
 					orderId: "3",
+					productId: "3",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},

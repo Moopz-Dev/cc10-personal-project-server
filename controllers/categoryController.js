@@ -31,7 +31,7 @@ exports.getOneCategory = async (req, res, next) => {
 					include: [
 						{
 							model: Product,
-							attributes: ["title", "description", "slug", "quantity"],
+							attributes: ["title", "description", "slug", "quantity", "price"],
 							include: [
 								{ model: ProductImage, attributes: ["imageUrl"] },
 								{ model: ProductRating, attributes: ["rating"] },

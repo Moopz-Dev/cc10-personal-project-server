@@ -1,4 +1,4 @@
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 const {
 	Category,
 	Product,
@@ -494,7 +494,11 @@ exports.getProductsByFilter = async (req, res, next) => {
 
 exports.getProductBrands = async (req, res, next) => {
 	try {
-		const brands = await Product.findAll({ attributes: ["brand"] });
+		const brands = await Product.findAll({
+			attributes: [[Sequelize.fn("DISTINCT", Sequelize.col("brand")), "brand"]],
+			order: [["brand", "ASC"]],
+		});
+		// console.log(brands);
 		res.status(200).json(brands.map(item => item.brand));
 	} catch (error) {
 		next(error);

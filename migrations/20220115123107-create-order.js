@@ -26,7 +26,13 @@ module.exports = {
 				allowNull: false,
 				defaultValue: 0,
 			},
+			paymentSlip: {
+				type: Sequelize.STRING,
+			},
 			address: {
+				type: Sequelize.STRING,
+			},
+			tracking: {
 				type: Sequelize.STRING,
 			},
 			userId: {

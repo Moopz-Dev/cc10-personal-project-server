@@ -30,3 +30,17 @@ exports.updateOrder = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.updateTracking = async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const { tracking } = req.body;
+		const order = await Order.findOne({
+			where: { id },
+		});
+		await order.update({ tracking });
+		res.status(200).json(order);
+	} catch (error) {
+		next(error);
+	}
+};

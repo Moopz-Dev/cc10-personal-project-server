@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
 				defaultValue: 0,
 			},
 			address: DataTypes.STRING,
+			tracking: DataTypes.STRING,
+			paymentSlip: DataTypes.STRING,
 		},
 		{
 			sequelize,
